@@ -3,7 +3,7 @@ Use tidyverse on R-Studio to determine when and where it is most statistica>
 This helps us narrow down our images of interest from an otherwise impossib>
 If you already have a specific spatial or temporal range in mind, use that >
 
-#* Install necessary dependencies in Ubuntu*
+# **Install necessary dependencies in Ubuntu**
 
 ```bash
 sudo apt update
@@ -12,7 +12,7 @@ pip3 install pandas geemap
 pip3 install earthengine-api
 ```
 
-#* First, we need to create an excel file listing the satellite images within our preferred date, location, and cloud cover ranges.*
+# **First, we need to create an excel file listing the satellite images within our preferred date, location, and cloud cover ranges.**
 
 ## Save the python script titled "Using_Images_From_GEE_Sentinel_2_Satellite.py" from this repository branch onto your computer.
 
