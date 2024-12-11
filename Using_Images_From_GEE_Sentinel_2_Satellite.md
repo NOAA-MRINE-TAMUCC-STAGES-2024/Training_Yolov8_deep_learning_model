@@ -34,9 +34,8 @@ lon_max = 40.0  # Maximum longitude
 
 #### Adjust for maximum cloud coverage that an image can have to be considered.
 
-```cloud_coverage_max = 10  # Maximum cloud coverage percentage (e.g., 10 means images with less than 10% cloud cover)```
-
-```cloud_coverage_max = 10  # Maximum cloud coverage percentage (e.g., 10 means images with less than 10% cloud cover)```
+```cloud_coverage_max = 10  # Maximum cloud coverage percentage (e.g., 10 means images with less than 10% cloud cover)
+cloud_coverage_max = 10  # Maximum cloud coverage percentage (e.g., 10 means images with less than 10% cloud cover)```
 
 ### Navigate to the directory where you saved this script
 
