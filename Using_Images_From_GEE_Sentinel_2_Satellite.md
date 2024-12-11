@@ -21,7 +21,8 @@ pip3 install earthengine-api
 #### Date range 
 
 ```start_date = '2023-01-01'  # Customize the start date (YYYY-MM-DD)
-end_date = '2023-12-31'    # Customize the end date (YYYY-MM-DD)```
+end_date = '2023-12-31'    # Customize the end date (YYYY-MM-DD)
+```
 
 #### Latitude and Longitude Coordinates
 
@@ -35,8 +36,8 @@ lon_max = 40.0  # Maximum longitude
 #### Adjust for maximum cloud coverage that an image can have to be considered.
 
 ```cloud_coverage_max = 10  # Maximum cloud coverage percentage (e.g., 10 means images with less than 10% cloud cover)
-cloud_coverage_max = 10  # Maximum cloud coverage percentage (e.g., 10 means images with less than 10% cloud cover)```
-
+cloud_coverage_max = 10  # Maximum cloud coverage percentage (e.g., 10 means images with less than 10% cloud cover)
+```
 ### Navigate to the directory where you saved this script
 
 ```bash
