@@ -13,7 +13,9 @@ pip3 install earthengine-api
 ```
 # **Login to your Google account through your command line**
 
+```bash
 earthengine authenticate
+```
 
 # **First, we need to create an excel file listing the satellite images within our preferred date, location, and cloud cover ranges.**
 
