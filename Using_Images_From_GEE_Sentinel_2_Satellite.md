@@ -11,6 +11,9 @@ sudo apt install python3 python3-pip git
 pip3 install pandas geemap
 pip3 install earthengine-api
 ```
+# **Login to your Google account through your command line**
+
+earthengine authenticate
 
 # **First, we need to create an excel file listing the satellite images within our preferred date, location, and cloud cover ranges.**
 
