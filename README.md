@@ -44,3 +44,7 @@ Sentinel-2 has a global geographic range between the latitudes 82.0 N and 56.0 S
 
 Sentinel-2 has a 290 km swath width (the area observed during a single pass of the satellite), allowing it to cover large regions in each pass.
 
+# **What order to open the files**
+
+"Using_Images_From_GEE_Sentinel_2_Satellite.md" is the roadmap for using the GEE Sentinel 2 satellite images to create a training dataset, ad you will need to download its corresponding ".py" file.
+Next, you will follow "view_individual_GEES2_images.py" to view the individual satellite images. You will need to download its corresponding ".py" file, and "positive_IDs.py". You should download all of the python files into the same folder, to make things easier.
