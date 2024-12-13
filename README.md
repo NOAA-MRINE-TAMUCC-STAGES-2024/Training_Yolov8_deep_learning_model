@@ -1,6 +1,4 @@
-# *Image Source*
-
-This branch is to be used if the user is intending to use the open access satellite images on Google Earth Engine, from the Sentinel 2 sattellite.
+# **This branch is to be used if the user is intending to use the open access satellite images on Google Earth Engine, from the Sentinel 2 sattellite.**
 
 # Use Case
 
