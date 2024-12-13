@@ -1,26 +1,48 @@
-# Training_Yolov8_deep_learning_model
-Step by step instructions how to  train the Yolov8 image detection deep learning model to identify specific objects from image or video feed.
+# *Image Source*
 
-This repository contains resources for creating, and annotating a training image dataset from either Sentinel 2 Google Earch Engine satellite images or aerial images provided by the user, as well as how to create an AI model to identify images in PyTorch YOLOv8.
+This branch is to be used if the user is intending to use the open access satellite images on Google Earth Engine, from the Sentinel 2 sattellite.
 
-It includes example data based on the findings of Farmer et al. (2022), relating to giant manta rays (Mobula birostris), and was originally conducted under a request from the National Oceanic and Atmospheric Association (NOAA) Fisheries Southeast Regional Office.
+# Use Case
 
-# Programs Needed
-Linux based command line
-Google Earth Engine (GEE): For accessing Sentinel-2 imagery
-CVAT: For annotating training datasets
-Python: For developing and running the AI model
-YOLOv8: Package in PyTorch for model training and detection
+Best for objects bigger than 10m. It is most commonly used for projects that deal with frequent monitoring, detailed spatial analysis, environmental changes, vegetation and land cover studies, and disaster management.
 
-# Contributors
-This project was developed by National Science Foundation (NSF) National Research Traineeship (NRT) Stakeholder Guieded Environmental Science (STAGES) cohort 2 (2024) students Burton, Yogesh, and Labeille from Texas A&M University–Corpus Christi, under the stakeholder guidance of NOAA Fisheries Southeast Region.
+# Spatial and Temporal Resolution
 
-# Reference
-Farmer, N.A., Garrison, L.P., Horn, C., et al., 2022. The distribution of manta rays in the western North Atlantic Ocean off the eastern United States. Sci Rep 12, 6544.
-https://doi.org/10.1038/s41598-022-10482-8
+## Spatial Resolution
 
-# Acknowledgement
+### 10 meters per pixel for the following bands
 
-This material is based upon work supported by the National Science Foundation under Grant No. DGE-2152131 ​
+B2 (Blue)
+B3 (Green)
+B4 (Red)
+B8 (Near-Infrared)
 
-Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the National Science Foundation.
+The scripts provided in this GitHub use this spatial resolution, but it could be alterred to any of the below.
+
+
+### 20 meters per pixel for the following bands
+
+B5 (Vegetation Red Edge)
+B6 (Vegetation Red Edge)
+B7 (Vegetation Red Edge)
+B8A (Narrow Near-Infrared)
+B11 (Shortwave Infrared)
+B12 (Shortwave Infrared)
+
+### 60 meters per pixel for the following bands
+
+B1 (Coastal Aerosol)
+B9 (Water Vapor)
+
+## Temporal Resolution
+
+Sentinel-2 has a 5-day revisit cycle at the equator, but th eactual revisit time depends on the latitude, with higher latitudes having shorter revisit times.
+
+# Geographic Range
+
+Sentinel-2 has a global geographic range between the latitudes 82.0 N and 56.0 S
+
+# Swath Width
+
+Sentinel-2 has a 290 km swath width (the area observed during a single pass of the satellite), allowing it to cover large regions in each pass.
+
