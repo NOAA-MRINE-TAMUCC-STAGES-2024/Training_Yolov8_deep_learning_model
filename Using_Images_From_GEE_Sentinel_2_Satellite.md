@@ -9,28 +9,17 @@ If you already have a specific spatial or temporal range in mind, use that when 
 
 You will need to have a GEE account and project already set up for this to work.
 
-```bash
-earthengine authenticate
-```
+## Import necessary libraries
 
-## First, we need to create an excel file listing the satellite images within our preferred date, location, and cloud cover ranges.
+import pandas as pd
+import geemap
+import ee
+from tqdm import tqdm
 
-Login to your preferred Google Account and open Google Colaboratory. Be sure to name the document.
+## Authenticate and initialize Google Earth Engine
 
-## Install required python libraries
-
-```python
-!pip install pandas geemap earthengine-api
-```
-
-## Authenticate with Google Earth Engine
-
-Make sure you have a GEE account and project ID set up under the same gmail as your colab.
-
-```python
 ee.Authenticate()
 ee.Initialize()
-```
 
 ## Define your python preferred image parameters
 
