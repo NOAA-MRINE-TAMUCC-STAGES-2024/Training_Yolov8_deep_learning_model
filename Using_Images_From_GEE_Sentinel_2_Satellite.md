@@ -18,9 +18,11 @@ import geemap
 import ee
 from tqdm import tqdm
 ```
+
 ## Authenticate and initialize Google Earth Engine
 
-```ee.Authenticate()
+```python
+ee.Authenticate()
 ee.Initialize()
 ```
 
