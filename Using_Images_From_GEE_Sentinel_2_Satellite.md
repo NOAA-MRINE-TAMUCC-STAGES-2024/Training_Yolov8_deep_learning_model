@@ -21,38 +21,94 @@ earthengine authenticate
 
 # **First, we need to create an excel file listing the satellite images within our preferred date, location, and cloud cover ranges.**
 
-## Save the python script titled "Using_Images_From_GEE_Sentinel_2_Satellite.py" from this repository branch onto your computer.
+# Login to your preferred Google Account and open Google Colaboratory. Be sure to name the document
 
-### Update the script for the following criteria
+# Set Up Google Colab for GEE Integration
 
-#### Date range 
+## Install required python libraries
 
-```start_date = '2023-01-01'  # Customize the start date (YYYY-MM-DD)
+```python
+!pip install pandas geemap earthengine-api
+```
+
+## Authenticate with Google Earth Engine
+
+Make sure you have a GEE account and project ID set up under the same gmail as your colab.
+
+```python
+ee.Authenticate()
+ee.Initialize()
+```
+
+## Define your python preferred image parameters
+
+### Date range
+
+Adjust the date range to filter images.
+
+```python
+start_date = '2023-01-01'  # Customize the start date (YYYY-MM-DD)
 end_date = '2023-12-31'    # Customize the end date (YYYY-MM-DD)
 ```
 
-#### Latitude and Longitude Coordinates
+### Latitude and longitude coordinates
 
-```# Set your area of interest (coordinates of a bounding box)
+Set your area of interest (coordinates of a bounding box).
+
+```python
 lat_min = 10.0  # Minimum latitude
 lat_max = 20.0  # Maximum latitude
 lon_min = 30.0  # Minimum longitude
 lon_max = 40.0  # Maximum longitude
 ```
 
-#### Adjust for maximum cloud coverage that an image can have to be considered.
+### Maximum cloud cover
 
-```cloud_coverage_max = 10  # Maximum cloud coverage percentage (e.g., 10 means images with less than 10% cloud cover)
-cloud_coverage_max = 10  # Maximum cloud coverage percentage (e.g., 10 means images with less than 10% cloud cover)
-```
-### Navigate to the directory where you saved this script
+Specify the maximum cloud coverage an image is allowed to have.
 
-```bash
-cd /path/to/your/script
-python3 Using_Images_From_GEE_Sentinel_2_Satellite.py
+```python
+cloud_coverage_max = 10  # Maximum cloud coverage percentage (e.g., 10%)
 ```
 
-### This script will query Google Earth Engine for Sentinel-2 images within the specified region and date range, filter the images based on cloud cover, and save the metadata (Image ID, Date, Linear Ring) of the GEE Sentinel 2 images into an excel file as a list.
+## Run this code to create an excel file, listing the Sentinel-2 images taken within your parameters
 
-## Verify the output of your new excel file listing the GEE Sentinel 2 satellite images within your given parameters.
+```python
+	# Define an area of interest
+aoi = ee.Geometry.Rectangle([lon_min, lat_min, lon_max, lat_max])
 
+	# Filter Sentinel-2 images by date, cloud coverage, and area of interest
+collection = (ee.ImageCollection('COPERNICUS/S2')
+              .filterBounds(aoi)
+              .filterDate(start_date, end_date)
+              .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', cloud_coverage_max)))
+
+	# Get image information and export to a list
+def get_image_info(image):
+    info = image.getInfo()
+    return {
+        'id': info['id'],
+        'date': info['properties']['GENERATION_TIME'],
+        'cloud_coverage': info['properties']['CLOUDY_PIXEL_PERCENTAGE']
+    }
+
+	# Map over the collection to extract metadata
+images = collection.toList(collection.size())
+image_info = [get_image_info(ee.Image(images.get(i))) for i in range(images.size().getInfo())]
+
+	# Convert to a DataFrame and save as Excel
+df = pd.DataFrame(image_info)
+df.to_excel('Sentinel_2_Images.xlsx', index=False)
+
+print("Excel file 'Sentinel_2_Images.xlsx' created successfully!")
+```
+
+## Download the Output Excel File
+
+After running the above script, download the generated Excel file to your local machine:
+
+```python
+from google.colab import files
+
+	# Download the file
+files.download('Sentinel_2_Images.xlsx')
+```
