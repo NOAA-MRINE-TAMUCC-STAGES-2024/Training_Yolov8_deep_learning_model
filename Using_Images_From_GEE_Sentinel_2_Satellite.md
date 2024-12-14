@@ -3,14 +3,6 @@ Use tidyverse on R-Studio to determine when and where it is most statistically l
 This helps us narrow down our images of interest from an otherwise impossible amount of images.
 If you already have a specific spatial or temporal range in mind, use that when filling in your parameters. 
 
-# **Install necessary dependencies in Ubuntu**
-
-```bash
-sudo apt update
-sudo apt install python3 python3-pip git
-pip3 install pandas geemap
-pip3 install earthengine-api
-```
 # **Login to your Google Earth Engine account through your command line**
 
 You will need to have a GEE account and project already set up for this to work.
@@ -19,11 +11,11 @@ You will need to have a GEE account and project already set up for this to work.
 earthengine authenticate
 ```
 
-# **First, we need to create an excel file listing the satellite images within our preferred date, location, and cloud cover ranges.**
+## First, we need to create an excel file listing the satellite images within our preferred date, location, and cloud cover ranges.
 
-# Login to your preferred Google Account and open Google Colaboratory. Be sure to name the document
+## Login to your preferred Google Account and open Google Colaboratory. Be sure to name the document
 
-# Set Up Google Colab for GEE Integration
+## Set Up Google Colab for GEE Integration
 
 ## Install required python libraries
 
