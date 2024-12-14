@@ -95,10 +95,10 @@ def getImageMetadata(image_info):
     date_formatted = f'{date[:4]}-{date[4:6]}-{date[6:8]}'
 
     return {
-        'image name': index,
-        'area of interest': 'Cape Canaveral, Florida',  # Example area of interest
+        'image_name': index,
+        'area_of_interest': 'Cape Canaveral, Florida',  # Example area of interest
         'date': date_formatted,
-        'Linear Ring': footprint
+        'linear_ring': footprint
     }
 
 # Initialize an empty list to store metadata
