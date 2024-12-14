@@ -11,7 +11,6 @@ You will need to have a GEE account and Cloud Project Account with billing infor
 
 ## Import necessary libraries
 
-
 ```python
 !pip install pandas geemap earthengine-api tqdm
 import pandas as pd
@@ -19,6 +18,10 @@ import geemap
 import ee
 from tqdm import tqdm
 ```
+
+## Mount Google Drive
+
+drive.mount('/content/drive')
 
 ## Authenticate and initialize Google Earth Engine
 
@@ -59,9 +62,6 @@ cloud_coverage_max = 10  # Maximum cloud coverage percentage (e.g., 10%)
 ```
 
 ```python
-# Mount Google Drive
-drive.mount('/content/drive')
-
 # Function to mask clouds using the Sentinel-2 QA band
 def maskS2clouds(image):
     qa = image.select('QA60')
@@ -88,7 +88,7 @@ def getImageMetadata(image_info):
     # Parse index to get date and time (consider different formats)
     index_parts = index.split('_')[0].split('T')
     date = index_parts[0]
-    
+
     # Format the date (yyyy-mm-dd)
     date_formatted = f'{date[:4]}-{date[4:6]}-{date[6:8]}'
 
