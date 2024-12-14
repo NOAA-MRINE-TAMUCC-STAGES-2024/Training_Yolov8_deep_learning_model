@@ -2,8 +2,7 @@
 
 # Excel file requirements
 
-Named: Sentinel_2_Images.xlsx
-Column named: "image_ID"
+Your excel file should be named: "Sentinel_2_Images.xlsx" and it should have a column named: "image_ID"
 
 # Google Drive folder
 
@@ -26,14 +25,15 @@ import ee
 ee.Authenticate()
 
 # Initialize GEE
-ee.Initialize()
+project_ID='your-project-ID'
+ee.Initialize('your-project-ID')
 ```
 
 ## Mount Google Drive and load the excel file
 
 Mount your Google Drive to access the Excel file and read the "image_ID" column:
 
-```bash
+```python
 from google.colab import drive
 import pandas as pd
 
