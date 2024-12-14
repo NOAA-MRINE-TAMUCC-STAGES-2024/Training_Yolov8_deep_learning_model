@@ -13,8 +13,7 @@ You will need to have a GEE account and project already set up for this to work.
 
 
 ```python
-!pip install pandas geemap earthengine-api
-pip install tqdm
+!pip install pandas geemap earthengine-api tqdm
 import pandas as pd
 import geemap
 import ee
