@@ -7,7 +7,7 @@ If you already have a specific spatial or temporal range in mind, use that when 
 
 ## Login to your Google Earth Engine account through your command line
 
-You will need to have a GEE account and project already set up for this to work.
+You will need to have a GEE account and Cloud Project Account with billing information set up for this to work.
 
 ## Import necessary libraries
 
@@ -23,8 +23,9 @@ from tqdm import tqdm
 ## Authenticate and initialize Google Earth Engine
 
 ```python
+project_id = 'your_project_id'  # Example: 'my-cloud-project-123'
 ee.Authenticate()
-ee.Initialize()
+ee.Initialize(project=project_id)
 ```
 
 ## Define your python preferred image parameters
