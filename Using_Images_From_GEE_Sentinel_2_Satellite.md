@@ -1,9 +1,11 @@
-# You will need your own statistical information for sightings, and R-Studio
+# All Codes Will Be Run Through Google Colaboratory
+
+## You will need your own statistical information for sightings, and R-Studio
 Use tidyverse on R-Studio to determine when and where it is most statistically likely.
 This helps us narrow down our images of interest from an otherwise impossible amount of images.
 If you already have a specific spatial or temporal range in mind, use that when filling in your parameters. 
 
-# **Login to your Google Earth Engine account through your command line**
+## Login to your Google Earth Engine account through your command line
 
 You will need to have a GEE account and project already set up for this to work.
 
