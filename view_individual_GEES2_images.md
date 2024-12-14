@@ -26,7 +26,7 @@ ee.Authenticate()
 
 # Initialize GEE
 project_ID='your-project-ID'
-ee.Initialize('project_ID')
+ee.Initialize(project=project_ID)
 ```
 
 ## Mount Google Drive and load the excel file
