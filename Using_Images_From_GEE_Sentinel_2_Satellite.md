@@ -60,33 +60,49 @@ cloud_coverage_max = 10  # Maximum cloud coverage percentage (e.g., 10%)
 ## Run this code to create an excel file, listing the Sentinel-2 images taken within your parameters
 
 ```python
-	# Define an area of interest
 aoi = ee.Geometry.Rectangle([lon_min, lat_min, lon_max, lat_max])
 
-	# Filter Sentinel-2 images by date, cloud coverage, and area of interest
+# Filter Sentinel-2 image collection by date, cloud coverage, and area of interest
 collection = (ee.ImageCollection('COPERNICUS/S2')
               .filterBounds(aoi)
               .filterDate(start_date, end_date)
               .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', cloud_coverage_max)))
 
-	# Get image information and export to a list
-def get_image_info(image):
-    info = image.getInfo()
-    return {
-        'id': info['id'],
-        'date': info['properties']['GENERATION_TIME'],
-        'cloud_coverage': info['properties']['CLOUDY_PIXEL_PERCENTAGE']
-    }
+# Check if the collection has any images
+collection_size = collection.size().getInfo()
 
-	# Map over the collection to extract metadata
-images = collection.toList(collection.size())
-image_info = [get_image_info(ee.Image(images.get(i))) for i in range(images.size().getInfo())]
+if collection_size == 0:
+    print("No images found within the specified parameters.")
+else:
+    print(f"Found {collection_size} images. Processing...")
 
-	# Convert to a DataFrame and save as Excel
-df = pd.DataFrame(image_info)
-df.to_excel('Sentinel_2_Images.xlsx', index=False)
+    # Function to extract image metadata
+    def get_image_info(image):
+        info = image.getInfo()
+        return {
+            'id': info['id'],
+            'date': info['properties']['GENERATION_TIME'],
+            'cloud_coverage': info['properties']['CLOUDY_PIXEL_PERCENTAGE']
+        }
 
-print("Excel file 'Sentinel_2_Images.xlsx' created successfully!")
+    # Map over the collection and extract metadata, with a progress bar
+    images = collection.toList(collection_size)
+    image_info = []
+
+    for i in tqdm(range(collection_size), desc="Processing Images", unit="image"):
+        try:
+            image = ee.Image(images.get(i))
+            image_info.append(get_image_info(image))
+        except Exception as e:
+            print(f"Error processing image {i}: {e}")
+
+    # Convert the list of metadata to a DataFrame
+    df = pd.DataFrame(image_info)
+
+    # Save the DataFrame to an Excel file
+    df.to_excel('Sentinel_2_Images.xlsx', index=False)
+
+    print("Excel file 'Sentinel_2_Images.xlsx' created successfully!")
 ```
 
 ## Download the Output Excel File
