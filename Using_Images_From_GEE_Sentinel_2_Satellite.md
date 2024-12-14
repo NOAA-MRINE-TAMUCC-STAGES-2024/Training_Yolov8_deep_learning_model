@@ -11,7 +11,9 @@ sudo apt install python3 python3-pip git
 pip3 install pandas geemap
 pip3 install earthengine-api
 ```
-# **Login to your Google account through your command line**
+# **Login to your Google Earth Engine account through your command line**
+
+You will need to have a GEE account and project already set up for this to work.
 
 ```bash
 earthengine authenticate
