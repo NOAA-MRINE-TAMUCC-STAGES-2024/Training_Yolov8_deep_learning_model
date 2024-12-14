@@ -15,9 +15,7 @@ earthengine authenticate
 
 ## First, we need to create an excel file listing the satellite images within our preferred date, location, and cloud cover ranges.
 
-## Login to your preferred Google Account and open Google Colaboratory. Be sure to name the document
-
-## Set Up Google Colab for GEE Integration
+Login to your preferred Google Account and open Google Colaboratory. Be sure to name the document.
 
 ## Install required python libraries
 
