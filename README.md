@@ -1,5 +1,7 @@
 # **This branch is to be used if the user is intending to use the open access satellite images on Google Earth Engine, from the Sentinel 2 sattellite.**
 
+# *All Scripts in This Section Will Be Run in Google Colaboratory. Make sure you are signed into the same Google Account You Want All Files to be Pulled From and Added to.*
+
 # Use Case
 
 Best for objects bigger than 10m. It is most commonly used for projects that deal with frequent monitoring, detailed spatial analysis, environmental changes, vegetation and land cover studies, and disaster management.
