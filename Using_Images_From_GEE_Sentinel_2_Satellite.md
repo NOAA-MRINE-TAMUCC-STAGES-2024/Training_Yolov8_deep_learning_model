@@ -11,15 +11,18 @@ You will need to have a GEE account and project already set up for this to work.
 
 ## Import necessary libraries
 
-import pandas as pd
+
+```python
+!pip install pandas geemap earthengine-apiimport pandas as pd
 import geemap
 import ee
 from tqdm import tqdm
-
+```
 ## Authenticate and initialize Google Earth Engine
 
-ee.Authenticate()
+```ee.Authenticate()
 ee.Initialize()
+```
 
 ## Define your python preferred image parameters
 
