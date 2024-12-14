@@ -1,49 +1,103 @@
-# How to view individual Sentinel 2 satellite images in GEE through the command line.
+# This file will walk you through viewing and saving individual images in Google Colaboratory from Google Earth Engine's Sentinel-2 Satellite
 
+# Excel file requirements
 
-## Install the Necessary Python Libraries
-```bash
-pip install pandas
-pip install geemap
-pip install google-auth
-pip install google-earth-engine
+Named: Sentinel_2_Images.xlsx
+Column named: "image_ID"
+
+# Google Drive folder
+
+Ensure the folder name specified in the "folder_name" parameter exists in your Google Drive, or GEE will create it automatically.
+
+## Install the necessary python libraries if you have not already
+
+```python
+!pip install pandas geemap google-auth earthengine-api openpyxl
 ```
 
-## Download the "view_individual_GEES2_images.py" python file found in this branch.
+## Authenticate and initialize Google Earth Engine
 
+Authenticate and initialize the Google Earth Engine API:
 
-## Authenticate the Google Earth Engine (GEE) in the comand line
-```bash
-earthengine authenticate
+```python
+import ee
+
+# Authenticate Google Earth Engine
+ee.Authenticate()
+
+# Initialize GEE
+ee.Initialize()
 ```
 
-This will guide you through the authentication process in your browser.
+## Mount Google Drive and load the excel file
 
-## Run the python script through the command line
-
-```bash
-#!/bin/bash
-
-# Prompt for the path to the Excel file
-echo "Enter the path to your Excel file:"
-read excel_file_path
-
-# Run the Python script with the specified Excel file
-python process_images.py $excel_file_path
-```
-
-# Make the script Executable
+Mount your Google Drive to access the Excel file and read the "image_ID" column:
 
 ```bash
-chmod +x run_gee_process.sh
+from google.colab import drive
+import pandas as pd
+
+# Mount Google Drive
+drive.mount('/content/drive')
+
+# Path to the Excel file in your Drive
+excel_path = '/content/drive/MyDrive/Sentinel_2_Images.xlsx'
+
+# Load the Excel file and get the "image_ID" column
+df = pd.read_excel(excel_path, sheet_name=0)  # Adjust sheet_name if needed
+image_ids = df['image_ID'].dropna().tolist()  # Ensure no empty rows
+
+print(f"Loaded {len(image_ids)} image IDs from the Excel file.")
 ```
 
-# Run the Script
+## Define a function to export images to Google Drive
 
-```bash
-./run_gee_process.sh
+```python
+def export_image(image_id, folder_name="Sentinel2_Exports"):
+    """
+    Export a Sentinel-2 image to Google Drive.
+    Args:
+        image_id (str): The ID of the image to export.
+        folder_name (str): The folder name in Google Drive where the images will be saved.
+    """
+    try:
+        # Load the image by its ID
+        image = ee.Image(image_id)
+        
+        # Export task parameters
+        task = ee.batch.Export.image.toDrive(
+            image=image,
+            description=f"Export_{image_id.split('/')[-1]}",
+            folder=folder_name,
+            fileNamePrefix=image_id.split('/')[-1],
+            scale=10,  # Adjust resolution if needed
+            region=image.geometry().bounds().getInfo()['coordinates'],  # Export the entire image
+            maxPixels=1e13  # Set a large limit for pixel exports
+        )
+        
+        # Start the export task
+        task.start()
+        print(f"Export started for image ID: {image_id}")
+    except Exception as e:
+        print(f"Error processing image ID {image_id}: {e}")
 ```
 
+## Process all image IDs
+
+Loop through the list of image_ID values from the excel file and export each image:
+
+```python
+# Define the Google Drive folder name where the exports will be saved
+export_folder = "Sentinel2_Exports"
+
+# Process each image ID
+for image_id in image_ids:
+    export_image(image_id, folder_name=export_folder)
+```
+
+## Check Export Status
+
+Monitor the status of export tasks directly in the Google Earth Engine Tasks dashboard.
 
 # *Output*
 
@@ -121,7 +175,64 @@ Map.centerObject(image, 10);
 
 ## This script will then only download the images you listed in that excel file
 
-```bash
-python positive_IDs.py "path/to/your/positive_IDs.xlsx"
+### Mount Google Drive and load the Excel file
+
+```python
+from google.colab import drive
+import pandas as pd
+
+# Mount Google Drive
+drive.mount('/content/drive')
+
+# Path to the Excel file in your Drive
+excel_path = '/content/drive/MyDrive/positive_IDs.xlsx'
+
+# Load the Excel file and get the "image_ID" column
+df = pd.read_excel(excel_path, sheet_name=0)  # Adjust sheet_name if needed
+image_ids = df['image_ID'].dropna().tolist()  # Ensure no empty rows
+
+print(f"Loaded {len(image_ids)} positive image IDs from the Excel file.")
 ```
- 
+
+### Define a function to export images
+
+```python
+def export_image(image_id, folder_name="Sentinel2_Exports"):
+    """
+    Export a Sentinel-2 image to Google Drive.
+    Args:
+        image_id (str): The ID of the image to export.
+        folder_name (str): The folder name in Google Drive where the images will be saved.
+    """
+    try:
+        # Load the image by its ID
+        image = ee.Image(image_id)
+        
+        # Export task parameters
+        task = ee.batch.Export.image.toDrive(
+            image=image,
+            description=f"Export_{image_id.split('/')[-1]}",
+            folder=folder_name,
+            fileNamePrefix=image_id.split('/')[-1],
+            scale=10,  # Adjust resolution if needed
+            region=image.geometry().bounds().getInfo()['coordinates'],  # Export the entire image
+            maxPixels=1e13  # Set a large limit for pixel exports
+        )
+        
+        # Start the export task
+        task.start()
+        print(f"Export started for image ID: {image_id}")
+    except Exception as e:
+        print(f"Error processing image ID {image_id}: {e}")
+```
+
+### Process all image IDs from the positive_IDs.xlsx
+
+```python
+# Define the Google Drive folder name where the exports will be saved
+export_folder = "Sentinel2_Exports"
+
+# Process each image ID from positive_IDs.xlsx
+for image_id in image_ids:
+    export_image(image_id, folder_name=export_folder)
+```
