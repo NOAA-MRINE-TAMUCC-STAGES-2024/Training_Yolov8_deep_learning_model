@@ -15,9 +15,12 @@ YOLOv8: Package in PyTorch for model training and detection
 # Contributors
 This project was developed by National Science Foundation (NSF) National Research Traineeship (NRT) Stakeholder Guieded Environmental Science (STAGES) cohort 2 (2024) students Burton, Yogesh, and Labeille from Texas A&M University–Corpus Christi, under the stakeholder guidance of NOAA Fisheries Southeast Region.
 
-# Reference
-Farmer, N.A., Garrison, L.P., Horn, C., et al., 2022. The distribution of manta rays in the western North Atlantic Ocean off the eastern United States. Sci Rep 12, 6544.
-https://doi.org/10.1038/s41598-022-10482-8
+# References
+Cudmore, B. (2016, June 22). Giant Manta Rays: Ocean Drifters or high seas homebodies?. PBS. https://www.pbs.org/wnet/nature/blog/giant-manta-small-range-size-ocean-migration/​
+Farmer, N.A., Garrison, L.P., Horn, C., Miller, M., Gowan, T., Kenney, R.D., Vukovich, M., Willmott, J.R., Pate, J., Harry Webb, D., Mullican, T.J., Stewart, J.D., Bassos-Hull, K., Jones, C., Adams, D., Pelletier, N.A., Waldron, J., Kajiura, S., 2022. The distribution of manta rays in the western North Atlantic Ocean off the eastern United States. Sci Rep 12, 6544. https://doi.org/10.1038/s41598-022-10482-8​
+Fisheries, N. (2024, April 17). Giant Manta Ray. NOAA Fisheries. https://www.fisheries.noaa.gov/species/giant-manta-ray/overview ​
+NOAA. (n.d.). Flower Garden Banks National Marine Sanctuary . Flower Garden Banks National Marine Sanctuary Manta Catalog Images: M46, M48, M50. https://flowergarden.noaa.gov/image_library/mcatalog/spsq464850.html#m46 ​
+NOAA AMMAPS ​
 
 # Acknowledgement
 
