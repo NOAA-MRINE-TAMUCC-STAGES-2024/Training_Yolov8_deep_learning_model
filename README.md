@@ -6,7 +6,7 @@ This repository contains resources for creating, and annotating a training image
 It includes example data based on the findings of Farmer et al. (2022), relating to giant manta rays (Mobula birostris), and was originally conducted under a request from the National Oceanic and Atmospheric Association (NOAA) Fisheries Southeast Regional Office.
 
 # Programs Needed
-Linux based command line
+Google Colaboratory (account and project ID)
 Google Earth Engine (GEE): For accessing Sentinel-2 imagery
 CVAT: For annotating training datasets
 Python: For developing and running the AI model
