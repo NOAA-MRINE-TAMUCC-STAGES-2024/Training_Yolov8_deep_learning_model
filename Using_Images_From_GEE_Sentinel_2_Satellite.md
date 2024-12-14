@@ -64,7 +64,7 @@ cloud_coverage_max = 10  # Maximum cloud coverage percentage (e.g., 10%)
 ```
 
 ```python
-# Function to mask clouds using the Sentinel-2 QA band
+# Function to mask clouds using the Sentinel-2 QA band 
 def maskS2clouds(image):
     qa = image.select('QA60')
     cloudBitMask = 1 << 10
@@ -74,8 +74,12 @@ def maskS2clouds(image):
 
 # Define region and date range for Sentinel-2 image collection
 region = ee.Geometry.Rectangle([lon_max, lat_max, lon_min, lat_min])
-# Load the Sentinel-2 image collection
-dataset = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED') \
+start_date = '2020-01-01'  # example start date
+end_date = '2020-12-31'  # example end date
+cloud_coverage_max = 20  # example max cloud coverage percentage
+
+# Load the Sentinel-2 image collection (S2_SR)
+dataset = ee.ImageCollection('COPERNICUS/S2_SR') \
     .filterDate(start_date, end_date) \
     .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', cloud_coverage_max)) \
     .filterBounds(region) \
@@ -95,10 +99,10 @@ def getImageMetadata(image_info):
     date_formatted = f'{date[:4]}-{date[4:6]}-{date[6:8]}'
 
     return {
-        'image_name': index,
+        'image_ID': index,
         'area_of_interest': 'Cape Canaveral, Florida',  # Example area of interest
         'date': date_formatted,
-        'linear_ring': footprint
+        'Linear_ring': footprint
     }
 
 # Initialize an empty list to store metadata
