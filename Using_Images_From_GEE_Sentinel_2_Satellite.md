@@ -21,7 +21,9 @@ from tqdm import tqdm
 
 ## Mount Google Drive
 
+```python
 drive.mount('/content/drive')
+```
 
 ## Authenticate and initialize Google Earth Engine
 
