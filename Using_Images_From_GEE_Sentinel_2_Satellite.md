@@ -57,61 +57,70 @@ Specify the maximum cloud coverage an image is allowed to have.
 cloud_coverage_max = 10  # Maximum cloud coverage percentage (e.g., 10%)
 ```
 
-## Run this code to create an excel file, listing the Sentinel-2 images taken within your parameters
-
 ```python
-aoi = ee.Geometry.Rectangle([lon_min, lat_min, lon_max, lat_max])
+# Mount Google Drive
+drive.mount('/content/drive')
 
-# Filter Sentinel-2 image collection by date, cloud coverage, and area of interest
-collection = (ee.ImageCollection('COPERNICUS/S2')
-              .filterBounds(aoi)
-              .filterDate(start_date, end_date)
-              .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', cloud_coverage_max)))
+# Function to mask clouds using the Sentinel-2 QA band
+def maskS2clouds(image):
+    qa = image.select('QA60')
+    cloudBitMask = 1 << 10
+    cirrusBitMask = 1 << 11
+    mask = qa.bitwiseAnd(cloudBitMask).eq(0).And(qa.bitwiseAnd(cirrusBitMask).eq(0))
+    return image.updateMask(mask).divide(10000)
 
-# Check if the collection has any images
-collection_size = collection.size().getInfo()
+# Define region and date range for Sentinel-2 image collection
+region = ee.Geometry.Rectangle([lon_max, lat_max, lon_min, lat_min])
+# Load the Sentinel-2 image collection
+dataset = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED') \
+    .filterDate(start_date, end_date) \
+    .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', cloud_coverage_max)) \
+    .filterBounds(region) \
+    .map(maskS2clouds)
 
-if collection_size == 0:
-    print("No images found within the specified parameters.")
+# Function to extract image metadata
+def getImageMetadata(image_info):
+    # Extract system:index and system:footprint properties
+    index = image_info['properties']['system:index']
+    footprint = image_info['properties']['system:footprint']['coordinates']
+
+    # Parse index to get date and time (consider different formats)
+    index_parts = index.split('_')[0].split('T')
+    date = index_parts[0]
+    
+    # Format the date (yyyy-mm-dd)
+    date_formatted = f'{date[:4]}-{date[4:6]}-{date[6:8]}'
+
+    return {
+        'image name': index,
+        'area of interest': 'Cape Canaveral, Florida',  # Example area of interest
+        'date': date_formatted,
+        'Linear Ring': footprint
+    }
+
+# Initialize an empty list to store metadata
+metadata_list = []
+
+# Get image information
+images_info = dataset.getInfo()['features']
+
+# Check if no images were found and print a message
+if not images_info:
+    print("No images found for the given parameters.")
 else:
-    print(f"Found {collection_size} images. Processing...")
+    # Add a progress bar with tqdm
+    for image_info in tqdm(images_info, desc="Processing images"):
+        metadata = getImageMetadata(image_info)
+        metadata_list.append(metadata)
 
-    # Function to extract image metadata
-    def get_image_info(image):
-        info = image.getInfo()
-        return {
-            'id': info['id'],
-            'date': info['properties']['GENERATION_TIME'],
-            'cloud_coverage': info['properties']['CLOUDY_PIXEL_PERCENTAGE']
-        }
+    # Convert the list to a pandas DataFrame
+    df = pd.DataFrame(metadata_list)
 
-    # Map over the collection and extract metadata, with a progress bar
-    images = collection.toList(collection_size)
-    image_info = []
-
-    for i in tqdm(range(collection_size), desc="Processing Images", unit="image"):
-        try:
-            image = ee.Image(images.get(i))
-            image_info.append(get_image_info(image))
-        except Exception as e:
-            print(f"Error processing image {i}: {e}")
-
-    # Convert the list of metadata to a DataFrame
-    df = pd.DataFrame(image_info)
+    # Define the file path in Google Drive
+    file_path = '/content/drive/MyDrive/Sentinel_2_Images.xlsx'
 
     # Save the DataFrame to an Excel file
-    df.to_excel('Sentinel_2_Images.xlsx', index=False)
+    df.to_excel(file_path, index=False)
 
-    print("Excel file 'Sentinel_2_Images.xlsx' created successfully!")
-```
-
-## Download the Output Excel File
-
-After running the above script, download the generated Excel file to your local machine:
-
-```python
-from google.colab import files
-
-	# Download the file
-files.download('Sentinel_2_Images.xlsx')
+    print(f'Saved metadata to {file_path}')
 ```
