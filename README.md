@@ -1,6 +1,6 @@
 # **This branch is to be used if the user is intending to use the open access satellite images on Google Earth Engine, from the Sentinel 2 sattellite.**
 
-# *All Scripts in This Section Will Be Run in Google Colaboratory. Make sure you are signed into the same Google Account You Want All Files to be Pulled From and Added to.*
+# *A list of images to view will be created in an excel file, using Google Colaboratory. The codes to view and export these images will be written directly into the terminal in Google Earth Engine. The user will need to have a cloud project set up to do this.*
 
 # Use Case
 
@@ -48,5 +48,5 @@ Sentinel-2 has a 290 km swath width (the area observed during a single pass of t
 
 # **What order to open the files**
 
-"Using_Images_From_GEE_Sentinel_2_Satellite.md" is the roadmap for using the GEE Sentinel 2 satellite images to create a training dataset, ad you will need to download its corresponding ".py" file.
-Next, you will follow "view_individual_GEES2_images.py" to view the individual satellite images. You will need to download its corresponding ".py" file, and "positive_IDs.py". You should download all of the python files into the same folder, to make things easier.
+"Using_Images_From_GEE_Sentinel_2_Satellite.md" is the roadmap for using Google Colaboratory to create a list of Sentinel 2 images within the preferred spatial, and temporal ranges, as well as maximum cloud cover.
+Next, the user will follow the instructions in "view_and_export_GEES2_Images" to view Sentinel 2 satellite images in Google Earth Engine, and save the images of interest into a folder on the users Google Drive.
