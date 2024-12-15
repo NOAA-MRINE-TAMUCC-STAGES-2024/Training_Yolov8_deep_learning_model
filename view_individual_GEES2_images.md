@@ -80,7 +80,7 @@ Only have the 1 column in this csv file. Open the csv file in a notepad app to m
 5. Upload "positive_IDs.csv"
 6. Click on the "Task" tab on the righ-hand side to make sure the upload is successful.
 
-## Export the images as GEOTIFFS into a folder named "Sentinel2_Exports_Positive" and enter this code in the script terminal in the middle:
+## Enter this code into the middle script terminal to export the images as GEOTIFFS into a folder named "Sentinel2_Exports_Positive":
 
 ```javascript
 // Step 1: Load the uploaded table (positive_IDs) as a FeatureCollection
