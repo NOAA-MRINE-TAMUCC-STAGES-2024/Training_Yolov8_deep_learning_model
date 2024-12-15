@@ -63,53 +63,66 @@ var image = ee.Image(imageID);
 Map.centerObject(image, 10);
 ```
 
-## The user should manually copy and paste the image name of positive identificaitons of the object of interest into a separate excel csv file named "positive_IDs" into a column named "image_ID".
+## The user should then scan the image for their object of interest.
 
-Only have the 1 column in this csv file. Open the csv file in a notepad app to make sure there are no hidden characters (usually commas).
+If there is an object of interest within the picture, use the geometry tools on GEE, and draw a shape around your object. Make sure there is a sufficient amount of background around the object, so that the AI model and differentiate the object from its environment.
 
-## Upload "positive_IDs.csv" as an asset in Google Earth Engine.
+An import tab will then pop up at the top of the terminal. Click on the icon next to it that looks like a document.
 
-1. Open your project in GEE code editor.
-2. Click on the "Assets" tab on the left-hand side.
-3. Click on "New".
-4. Click on "CSV file .csv".
-5. Upload "positive_IDs.csv"
-6. Click on the "Task" tab on the righ-hand side to make sure the upload is successful.
+A tab will open listing the code affiliated with your polygon, copy it.
 
-## Enter this code into the middle script terminal to export the images as GEOTIFFS into a folder named "Sentinel2_Exports_Positive":
+## The user should then open a new file in GEE and copy the following code.
+
+The user will need to paste the geometry code to replace the part of the below code containing "var roi = ", and the image name where it says "positive_ID = "
+
+This code will save the clipped image within the polygon the user drew around the object of interest into a folder in their Google Drive named "Sentinel2_Exports_Positive"
 
 ```javascript
-// Step 1: Load the uploaded table (positive_IDs) as a FeatureCollection
-var imageIdsTable = ee.FeatureCollection('projects/YOUR USERNAME/assets/positive_IDs');  // ENTER YOUR USER NAME
+// Assuming you've drawn the ROI and it's saved as `geometry` in Earth Engine
+var roi = 
+    ee.Geometry.Polygon(
+        [[[-81.20831835725136, 28.510943136677486],
+          [-81.20831835725136, 28.494650801415403],
+          [-81.17613184907265, 28.494650801415403],
+          [-81.17613184907265, 28.510943136677486]]], null, false);  // Use the variable containing your drawn region
 
-// Step 2: Define the export function for each image ID
-function exportImage(imageId) {
-  // Load the image using the image ID (Assuming it's from Sentinel-2 Surface Reflectance)
-  var image = ee.Image('COPERNICUS/S2_SR/' + imageId);  // Replace with the correct image collection if needed
+Positive_ID = 20200324T155911_20200324T160549_T17RMM //  Input your image_ID
 
-  // Ensure all bands have a consistent data type (e.g., casting to UInt16)
-  image = image.toInt16();  // Cast all bands to Int16 (or use toByte() if you prefer Byte)
+// Function to display the original image and retrieve resolution
+function displayOriginalImage(imageID) {
+  var image = ee.Image(imageID);
+  var resolution = image.select('B4').projection().nominalScale();
+  print('Resolution (meters):', resolution.getInfo());
 
-  // Define export parameters
+  // Clip the image to the ROI (Region of Interest)
+  var clippedImage = image.clip(roi); // Clip using the drawn ROI
+
+  // Cast all bands to UInt16 to ensure consistent data type
+  clippedImage = clippedImage.select(['B4', 'B3', 'B2']).toUint16();
+
+  // Add the clipped image to the map for visualization
+  Map.addLayer(clippedImage, {bands: ['B4', 'B3', 'B2'], min: 0, max: 3000}, 'Original Image (Clipped)');
+
+  // Export the clipped image as GeoTIFF
   Export.image.toDrive({
-    image: image,
-    description: imageId,
-    folder: 'Sentinel2_Exports_Positive',  // The folder in Google Drive
-    fileNamePrefix: imageId,  // Set the file name prefix for the GeoTIFF
-    scale: 10,  // Resolution (in meters), adjust according to your dataset
+    image: clippedImage,
+    description: 'Positive_ID',
+    folder: 'Sentinel2_Exports_Positive',  // Folder name in Google Drive
+    fileNamePrefix: 'Positive_ID',
+    scale: 10,  // Resolution (in meters)
     crs: 'EPSG:4326',  // Coordinate Reference System
     fileFormat: 'GeoTIFF',  // Output format
     maxPixels: 1000000000  // Set a higher maxPixels value (1 billion pixels in this case)
   });
 }
 
-// Step 3: Iterate over the image IDs in the FeatureCollection and export the images
-imageIdsTable.aggregate_array('image_ID').evaluate(function(imageIds) {
-  imageIds.forEach(function(imageId) {
-    // Call the export function for each image ID
-    exportImage(imageId);
-  });
-});
-```
+// Define the image ID
+var imageID = 'COPERNICUS/S2_SR/20200324T155911_20200324T160549_T17RMM';
 
-You will then need to open the "Tasks" tab on the right-hand side and click "RUN" next to each image. This will take several hours to complete.
+// Call the function to display and export the original image
+displayOriginalImage(imageID);
+
+// Center the map on the ROI (Region of Interest)
+Map.centerObject(roi, 10);  // Centering the map on the ROI
+
+```
