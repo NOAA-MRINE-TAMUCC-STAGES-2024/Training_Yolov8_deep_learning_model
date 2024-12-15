@@ -86,7 +86,7 @@ var roi =
           [-81.17613184907265, 28.494650801415403],
           [-81.17613184907265, 28.510943136677486]]], null, false);  // Use the variable containing your drawn region
 
-Positive_ID = 20200324T155911_20200324T160549_T17RMM //  Input your image_ID
+var Positive_ID = '20200324T155911_20200324T160549_T17RMM' //  Input your image_ID
 
 // Function to display the original image and retrieve resolution
 function displayOriginalImage(imageID) {
@@ -106,9 +106,9 @@ function displayOriginalImage(imageID) {
   // Export the clipped image as GeoTIFF
   Export.image.toDrive({
     image: clippedImage,
-    description: 'Positive_ID',
+    description: Positive_ID,
     folder: 'Sentinel2_Exports_Positive',  // Folder name in Google Drive
-    fileNamePrefix: 'Positive_ID',
+    fileNamePrefix: Positive_ID,
     scale: 10,  // Resolution (in meters)
     crs: 'EPSG:4326',  // Coordinate Reference System
     fileFormat: 'GeoTIFF',  // Output format
