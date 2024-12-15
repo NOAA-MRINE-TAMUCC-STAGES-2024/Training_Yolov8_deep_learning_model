@@ -67,9 +67,53 @@ Map.centerObject(image, 10);
 ** Unfortunately, our team was unable to find a model that can differentiate between ocean, waves, and clouds from an anomaly. Models such as these may exist, and the user is encouraged to try to find them, as manually searching these large images can take an extensive amount of time.**
 
 
-## The user should manually copy and paste the image name of positive identificaitons of the object of interest into a separate excel csv file named "positive_IDs" into a column named "positive_IDs", and download the python file named "positive_IDs.py" found in this branch.
+## The user should manually copy and paste the image name of positive identificaitons of the object of interest into a separate excel csv file named "positive_IDs" into a column named "image_ID".
 
+Only have the 1 column in this csv file. Open the csv file in a notepad app to make sure there are no hidden characters (usually commas).
 
-## This script will then download the images you listed in that excel file as a GEOTIFF file in your Google Drive.
+## Upload "positive_IDs.csv" as an asset in Google Earth Engine.
 
+1. Open your project in GEE code editor.
+2. Click on the "Assets" tab on the left-hand side.
+3. Click on "New".
+4. Click on "CSV file .csv".
+5. Upload "positive_IDs.csv"
+6. Click on the "Task" tab on the righ-hand side to make sure the upload is successful.
 
+## Export the images as GEOTIFFS into a folder named "Sentinel2_Exports_Positive" and enter this code in the script terminal in the middle:
+
+```javascript
+// Step 1: Load the uploaded table (positive_IDs) as a FeatureCollection
+var imageIdsTable = ee.FeatureCollection('projects/YOUR USERNAME/assets/positive_IDs');  // ENTER YOUR USER NAME
+
+// Step 2: Define the export function for each image ID
+function exportImage(imageId) {
+  // Load the image using the image ID (Assuming it's from Sentinel-2 Surface Reflectance)
+  var image = ee.Image('COPERNICUS/S2_SR/' + imageId);  // Replace with the correct image collection if needed
+
+  // Ensure all bands have a consistent data type (e.g., casting to UInt16)
+  image = image.toInt16();  // Cast all bands to Int16 (or use toByte() if you prefer Byte)
+
+  // Define export parameters
+  Export.image.toDrive({
+    image: image,
+    description: imageId,
+    folder: 'Sentinel2_Exports_Positive',  // The folder in Google Drive
+    fileNamePrefix: imageId,  // Set the file name prefix for the GeoTIFF
+    scale: 10,  // Resolution (in meters), adjust according to your dataset
+    crs: 'EPSG:4326',  // Coordinate Reference System
+    fileFormat: 'GeoTIFF',  // Output format
+    maxPixels: 1000000000  // Set a higher maxPixels value (1 billion pixels in this case)
+  });
+}
+
+// Step 3: Iterate over the image IDs in the FeatureCollection and export the images
+imageIdsTable.aggregate_array('image_ID').evaluate(function(imageIds) {
+  imageIds.forEach(function(imageId) {
+    // Call the export function for each image ID
+    exportImage(imageId);
+  });
+});
+```
+
+You will then need to open the "Tasks" tab on the right-hand side and click "RUN" next to each image. This will take several hours to complete.
