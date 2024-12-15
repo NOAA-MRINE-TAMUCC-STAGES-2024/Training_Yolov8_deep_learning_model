@@ -1,4 +1,4 @@
-# ** This file contains instructions to view individual satellite images in Google Earth Engine, then save images of interest as a GEOTIFF file.
+# **This file contains instructions to view individual satellite images in Google Earth Engine, then save images of interest as a GEOTIFF file.**
 
 ## Google Earth Engine does not allow users to download images from a separate website, so the images have to be individually called upon in the GEE coding platform.
 
@@ -64,7 +64,7 @@ Map.centerObject(image, 10);
 ```
 
 ## The user should then manually search each image for their object of interest.
-** Unfortunately, our team was unable to find a model that can differentiate between ocean, waves, and clouds from an anomaly. Models such as these may exist, and the user is encouraged to try to find them, as manually searching these large images can take an extensive amount of time.**
+**Unfortunately, our team was unable to find a model that can differentiate between ocean, waves, and clouds from an anomaly. Models such as these may exist, and the user is encouraged to try to find them, as manually searching these large images can take an extensive amount of time.**
 
 
 ## The user should manually copy and paste the image name of positive identificaitons of the object of interest into a separate excel csv file named "positive_IDs" into a column named "image_ID".
