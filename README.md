@@ -6,11 +6,12 @@ This repository contains resources for creating, and annotating a training image
 It includes example data based on the findings of Farmer et al. (2022), relating to giant manta rays (Mobula birostris), and was originally conducted under a request from the National Oceanic and Atmospheric Association (NOAA) Fisheries Southeast Regional Office.
 
 # Programs Needed
-Google Colaboratory (account and project ID)
-Google Earth Engine (GEE): For accessing Sentinel-2 imagery
-CVAT: For annotating training datasets
-Python: For developing and running the AI model
-YOLOv8: Package in PyTorch for model training and detection
+Google Colaboratory (account and project ID),
+Google Earth Engine (GEE): For accessing Sentinel-2 imagery,
+CVAT: For annotating training datasets,
+Python: For developing and running the AI model,
+YOLOv8: Package in PyTorch for model training and detection,
+Anaconda and Jupyter Notebook: For coding platform.
 
 # Contributors
 This project was developed by National Science Foundation (NSF) National Research Traineeship (NRT) Stakeholder Guieded Environmental Science (STAGES) cohort 2 (2024) students Burton, Yogesh, and Labeille from Texas A&M University–Corpus Christi, under the stakeholder guidance of NOAA Fisheries Southeast Region.
