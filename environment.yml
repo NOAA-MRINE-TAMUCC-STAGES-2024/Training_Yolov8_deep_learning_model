@@ -282,4 +282,4 @@ dependencies:
       - tzdata==2024.1
       - ultralytics==8.2.98
       - ultralytics-thop==2.0.6
-prefix: C:\Users\remil\anaconda3\envs\env_pytorch
+prefix: C:\Users\remil\anaconda3\envs\env_pytorch # Replace with your directory and path to your environment
